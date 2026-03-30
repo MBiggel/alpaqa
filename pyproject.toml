@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "alpaqa-bio"
-version = "0.1.3"
+version = "0.1.4"
 description = "a quality control tool for bacterial ONT-only assemblies"
 readme = "README.md"
 requires-python = ">=3.9"
