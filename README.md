@@ -69,7 +69,7 @@ alpaqa -i *.fastq --threads 16
 ```text
 usage: alpaqa -i assembly.fastq -o output.tsv --threads 16 [options]
 
-ALPAQA v0.1.1
+ALPAQA v0.1.3
 
 options:
   -h, --help            show this help message and exit
