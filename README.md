@@ -11,6 +11,12 @@ An automated bacterial genome assembly pipeline for ONT data which includes Meda
 
 ## Installation
 
+### Via conda
+Alpaqa is available through Bioconda, making it easy to manage in a dedicated environment:
+```bash
+conda install bioconda::alpaqa-bio
+```
+
 ### Via pip
 Alpaqa can be installed directly from PyPI:
 
@@ -69,7 +75,7 @@ alpaqa -i *.fastq --threads 16
 ```text
 usage: alpaqa -i assembly.fastq -o output.tsv --threads 16 [options]
 
-ALPAQA v0.1.3
+ALPAQA v0.1.4
 
 options:
   -h, --help            show this help message and exit
