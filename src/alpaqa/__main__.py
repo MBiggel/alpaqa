@@ -6,8 +6,13 @@ import os
 import multiprocessing
 from collections import defaultdict
 from scipy.stats import binomtest
+from importlib.metadata import version, PackageNotFoundError
 
-VERSION = "0.1.1"
+try:
+    VERSION = version("alpaqa-bio")
+except PackageNotFoundError:
+    # fallback if package not installed
+    VERSION = "0.0.0-dev"
 
 def get_significance_stars(p_value, num_tests):
     if num_tests == 0: return ""

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "alpaqa-bio"
-version = "0.1.2"
+version = "0.1.1"
 description = "a quality control tool for bacterial ONT-only assemblies"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -14,14 +14,15 @@ dependencies = [
 ]
 
 [project.scripts]
-alpaqa = "alpaqa:main"
+alpaqa = "alpaqa.__main__:main"
 
 [tool.hatch.build.targets.wheel]
-py-modules = ["alpaqa"]
+packages = ["src/alpaqa"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-  "alpaqa.py",
+  "src/",
   "README.md",
+  "LICENSE",
   "pyproject.toml",
 ]
