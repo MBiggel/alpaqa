@@ -1,6 +1,8 @@
 # Alpaqa: Assembly-Level Profiling And Quality Assessment
 <img src="https://github.com/user-attachments/assets/8ff14b77-4ac3-459a-89e0-be984b87b6cc" align="right" width="170" style="margin-left: 15px;">
 
+> Biggel M, Cernela N, Horlbog J, DeMott MS, Dedon PC, Hall MB, Chen J, Smith P, Carleton HA, Stephan R, Urban L. Standalone nanopore sequencing for foodborne pathogen surveillance: a large-scale evaluation and quality control framework. bioRxiv. 2026 https://doi.org/10.64898/2026.03.20.713089
+
 Alpaqa analyzes base-level quality scores in bacterial genome assemblies generated from Oxford Nanopore sequencing data.
 
 The tool masks noisy regions and quantifies the number of Low-Quality Bases (LQBs) per megabase, a metric we found to correlate with overall base-level assembly accuracy. In addition, Alpaqa performs binomial tests to identify 4-, 5-, and 6-mer motifs that are significantly associated with LQBs. These motifs often represent systematic, error-prone sequence contexts and may correspond to targets of DNA modification systems.
@@ -38,7 +40,7 @@ uv tool install alpaqa-bio
 ```
 
 ## Generating input files for alpaqa
-Alpaqa relies on fastq assembly files with phred quality scores generated with [dorado polish](https://github.com/nanoporetech/dorado) or [medaka2](https://github.com/nanoporetech/medaka) (-q flag). The tool has been tested with data generated with SUP@v5.0, SUP@v5.2, HAC@v5.0, and HAC@v5.2 basecalling models. SUP data is strongly recommended.
+Alpaqa relies on fastq assembly files with phred quality scores generated with [dorado polish](https://github.com/nanoporetech/dorado) or [medaka2](https://github.com/nanoporetech/medaka) (-q flag). The tool has been tested with data generated with SUP@v5.0, SUP@v5.2, HAC@v5.0, HAC@v5.2, and HAC@v6.0 basecalling models. SUP data is strongly recommended.
 
 #### Using medaka2
 
@@ -132,7 +134,7 @@ Beyond systematic sequencing errors, elevated LQB counts may indicate sample con
 ## Masking low-quality bases for downstream genotyping
 The helper script `fastq2a.py` can be used to convert FASTQ assembly files into FASTA format while masking low-quality bases. Replacing bases below a user-defined Q-score threshold with "N" helps maintain robustness in downstream bacterial cgMLST analyses. Tools such as Ridom SeqSphere exclude alleles containing these ambiguous bases to prevent false distance calculations. However, the final count of remaining target loci should be monitored to ensure sufficient resolution for high-resolution typing. For assemblies with ~5 to 10 LQBs/Mpb, masking bases with qscores ≤10 provides a good balance between accuracy and genomic resolution.
 
-Note: if you installed via pip/uv, you can run this helper script using:
+Note: if you installed via conde/pip/uv, you can run this helper script using:
 ```bash
 python -m alpaqa.fastq2a -i assembly.fastq -o assembly.masked.fasta -q 10
 ```
