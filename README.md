@@ -114,7 +114,7 @@ Alpaqa generates a tab-separated (TSV) report. Each row represents one input ass
 | **Filename**         | Name of the input FASTQ file.                                                                                                                                                                                                  |
 | **AvgQ**             | Average Phred quality score across all bases in the file.                                                                                                                                                                      |
 | **LQB_raw/Mbp**      | Low-Quality Bases per Megabase (Raw): Total count of bases with a Phred score between 1 and 5 in the entire file, normalized per million bases.                                                                                |
-| **LQB/Mbp**          | **Low-Quality Bases per Megabase (Filtered):** The density of low-quality bases in the longst contig after excluding (masking) unreliable LQB-dense regions.                                                                   |
+| **LQB/Mbp**          | **Low-Quality Bases per Megabase (Filtered):** The density of low-quality bases in the longest contig after excluding (masking) unreliable LQB-dense regions.                                                                   |
 | **MaskThresh**       | Dynamic Masking Threshold: The density threshold that triggered masking. Calculated as 5x the baseline density, but is at least 0.1% (0.001) to prevent over-masking assemblies.                                               |
 | **Masked_Bases**           | Total number of bases removed from the  analysis.                                                                                                                                                                              |
 | **Contigs_Analyzed** | Shown as X//Y, where X is the number of contigs analyzed (default: longest contig only) and Y is the total number of contigs in the file.                                                                                      |
@@ -134,10 +134,13 @@ Beyond systematic sequencing errors, elevated LQB counts may indicate sample con
 ## Masking low-quality bases for downstream genotyping
 The helper script `fastq2a.py` can be used to convert FASTQ assembly files into FASTA format while masking low-quality bases. Replacing bases below a user-defined Q-score threshold with "N" helps maintain robustness in downstream bacterial cgMLST analyses. Tools such as Ridom SeqSphere exclude alleles containing these ambiguous bases to prevent false distance calculations. However, the final count of remaining target loci should be monitored to ensure sufficient resolution for high-resolution typing. For assemblies with ~5 to 10 LQBs/Mpb, masking bases with qscores ≤10 provides a good balance between accuracy and genomic resolution.
 
-Note: if you installed via conde/pip/uv, you can run this helper script using:
+Note: if you installed via conda/pip/uv, you can run this helper script using:
 ```bash
 python -m alpaqa.fastq2a -i assembly.fastq -o assembly.masked.fasta -q 10
 ```
+
+## A note on the HAC@v6.0 model
+Our analyses suggest that DNA containing phosphorothioate modifications (mediated by dnd) or 7-deazaguanine modifications (mediated by dpd) were not adequately represented in the HAC@v6.0 training data. Among some clinically relevant species - including Escherichia, Klebsiella, and Salmonella - up to 10% of isolates carry such modification systems. When basecalled with HAC@v6.0, these modifications result in systematic, motif-specific basecalling errors and inaccurate assemblies. Affected assemblies will yield high LQB/Mbp counts with alpaqa. More details are described in our preprint.
 
 ## License
 
