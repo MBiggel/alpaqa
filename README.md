@@ -127,7 +127,7 @@ For assemblies generated with SUP@v5.2 data, following thresholds were establish
 * **5 to 10 LQBs/Mbp**: Potentially reliable but should be interpreted with caution. Masking low-quality bases with fastq2a.py (see below) is recommended for downstream cgMLST analyses.
 * **>10 LQBs/Mbp**: Usually unsuitable for high-resolution genotyping due to excessive base-level errors.
 
-Beyond systematic sequencing errors, elevated LQB counts may indicate sample contamination, insufficient sequencing depth, or low read quality, which can be further investigated using tools such as [nanoq](https://github.com/esteinig/nanoq) and [CheckM](https://github.com/Ecogenomics/CheckM).
+Beyond systematic sequencing errors, elevated LQB counts may indicate sample contamination, insufficient sequencing depth, or low read quality, which can be further investigated using tools such as [nanoq](https://github.com/esteinig/nanoq) and [CheckM](https://github.com/Ecogenomics/CheckM). In rare cases with high sequencing depth, low-level contamination that does not affect the assembly (and is not detected by CheckM) leads to increased LQB counts. Downsampling the input reads to ~50x can eliminate these false-positive counts.
 
 ![LQB_vs_errors](https://github.com/user-attachments/assets/62f0f612-9a29-48c0-b8d7-c59f0e229238)
 
@@ -139,8 +139,13 @@ Note: if you installed via conda/pip/uv, you can run this helper script using:
 python -m alpaqa.fastq2a -i assembly.fastq -o assembly.masked.fasta -q 10
 ```
 
-## A note on the HAC@v6.0 model
-Our analyses suggest that DNA containing phosphorothioate modifications (mediated by dnd) or 7-deazaguanine modifications (mediated by dpd) were not adequately represented in the HAC@v6.0 training data. Among some clinically relevant species - including Escherichia, Klebsiella, and Salmonella - up to 10% of isolates carry such modification systems. When basecalled with HAC@v6.0, these modifications result in systematic, motif-specific basecalling errors and inaccurate assemblies. Affected assemblies will yield high LQB/Mbp counts with alpaqa. More details are described in our preprint.
+## Impact of basecaller choice on assembly accuracy
+DNA modifications that are underrepresented in basecaller training data can cause systematic, motif-specific errors. These errors lead to elevated low-quality base (LQB/Mbp) counts in alpaqa.
+- SUPv5.0 / SUPv5.2: Achieved the highest accuracy in our evaluation. Problematic error rates were seen in isolates carrying the dnd(GGCC) phosphorothioate modification system. 
+- HACv6.0: Substantially faster than SUP. However, showed high error rates across isolates carrying any dpd (7-deazaguanine modification) or dnd(GGCC or GTTC) system. Among some clinically relevant species - including Escherichia, Klebsiella, and Salmonella - up to 10% of isolates carry such systems.
+
+<img width="600" height="383" alt="Figure_2_Beeswarm_Modification_v3_medaka_only" src="https://github.com/user-attachments/assets/d8b00e3a-3177-4244-9df6-22bf13669e11" />
+
 
 ## License
 
