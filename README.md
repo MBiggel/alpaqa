@@ -140,11 +140,16 @@ python -m alpaqa.fastq2a -i assembly.fastq -o assembly.masked.fasta -q 10
 ```
 
 ## Impact of basecaller choice on assembly accuracy
-DNA modifications that are underrepresented in basecaller training data can cause systematic, motif-specific errors. These errors lead to elevated low-quality base (LQB/Mbp) counts in alpaqa.
+We evaluated the accuracy of different basecalling models across 294 isolates from important foodborne pathogens. DNA modifications that are underrepresented in basecaller training data can cause systematic, motif-specific errors, leading to elevated low-quality base (LQB/Mbp) counts in alpaqa.
 - SUPv5.0 / SUPv5.2: Achieved the highest accuracy in our evaluation. Problematic error rates were seen in isolates carrying the dnd(GGCC) phosphorothioate modification system. 
 - HACv6.0: Substantially faster than SUP. However, showed high error rates across isolates carrying any dpd (7-deazaguanine modification) or dnd(GGCC or GTTC) system. Among some clinically relevant species - including Escherichia, Klebsiella, and Salmonella - up to 10% of isolates carry such systems.
+- HACv6.1: Resolves inaccuracies seen with HACv6.0 associated with dpd(AGCT) and dnd(GTTC) modifications (see [release post](https://community.nanoporetech.com/posts/dorado-2-2-0-release)). Overall accuracy comparable to SUPv5.0/v5.2, but with  increased error rates for isolates harboring dnd(GGCC) PT systems and GAAGAC-targeting methylation systems.
 
-<img width="600" height="383" alt="Figure_2_Beeswarm_Modification_v3_medaka_only" src="https://github.com/user-attachments/assets/d8b00e3a-3177-4244-9df6-22bf13669e11" />
+Accuracy benchmarks of new Dorado basecalling models are also regularly published on [Ryan Wick's blog](https://rrwick.github.io/).
+
+<img width="600" height="413" alt="HACv6 1_evaluation" src="https://github.com/user-attachments/assets/f8298e55-358a-417f-b18d-e11659a2bd51" />
+
+
 
 
 ## License
